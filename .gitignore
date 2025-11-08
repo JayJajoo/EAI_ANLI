@@ -1,5 +1,3 @@
-Pipeline/artifacts
-Pipeline/__pycache__
 MLPipeline/artifacts
 MLPipeline/__pycache__
 Experiments/BasicMLAlgos/artifacts
