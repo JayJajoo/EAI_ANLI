@@ -219,8 +219,8 @@ docker run --rm -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline python eval.p
 
 ### Training Time (GPU)
 - BERT-tiny: ~10-15 minutes
-- BERT-base: ~30-40 minutes
-- BERT-large: ~2-3 hours
+- BERT-base: ~2 hours
+- BERT-large: ~3 hours
 
 ---
 
