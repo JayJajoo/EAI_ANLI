@@ -5,7 +5,7 @@ Complete automated pipeline for fine-tuning BERT models on the ANLI dataset with
 
 ---
 
-## 📋 Quick Start
+## 👋 Quick Start
 
 ### Using Docker (Recommended)
 
@@ -18,6 +18,24 @@ docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline
 
 # Run complete pipeline (CPU only)
 docker run -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline
+```
+
+### Pull & Run for Others
+
+```bash
+# Pull the image from Docker Hub
+docker pull jayjajoo/anli_pipeline:latest
+
+# Run with GPU and local volume mapping
+docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" jayjajoo/anli_pipeline:latest
+
+# Run CPU only
+docker run -v "$(pwd)/artifacts:/app/artifacts" jayjajoo/anli_pipeline:latest
+```
+
+> For Windows PowerShell:
+```powershell
+docker run --gpus all -v "${PWD}/artifacts:/app/artifacts" jayjajoo/anli_pipeline:latest
 ```
 
 ### Using Python Directly
@@ -37,7 +55,7 @@ python eval.py     # Stage 3: Evaluation
 
 ---
 
-## 🏗️ Pipeline Architecture
+## 🏯 Pipeline Architecture
 
 ### Three-Stage Pipeline
 
@@ -97,7 +115,7 @@ python eval.py     # Stage 3: Evaluation
 
 ---
 
-## 🔧 Configuration
+## 🛠️ Configuration
 
 All settings are in **config.py**:
 
@@ -123,18 +141,16 @@ MODEL_DIR = './artifacts/model'
 
 ## 📊 Artifacts Generated
 
-After pipeline completion:
-
 ```
 artifacts/
 │
 ├── pipeline/
-│   ├── pipeline_log.txt          # Overall pipeline logs
-│   └── pipeline_summary.json     # Timing and status
+│   ├── pipeline_log.txt
+│   └── pipeline_summary.json
 │
 ├── eda/
-│   ├── eda_log.txt               # EDA logs
-│   ├── eda_summary.json          # Dataset statistics
+│   ├── eda_log.txt
+│   ├── eda_summary.json
 │   ├── label_distribution.json
 │   ├── similarity_stats_by_label.csv
 │   ├── premise_length_distribution.png
@@ -143,28 +159,28 @@ artifacts/
 │   └── tfidf_similarity_comparison.png
 │
 ├── training/
-│   ├── training_log.txt          # Training logs
-│   ├── training_history.json     # Epoch-by-epoch metrics
-│   ├── training_summary.json     # Final summary
-│   └── best_model.pt             # Best checkpoint
+│   ├── training_log.txt
+│   ├── training_history.json
+│   ├── training_summary.json
+│   └── best_model.pt
 │
 ├── model/
-│   ├── final_model/              # Saved model (HuggingFace format)
+│   ├── final_model/
 │   │   ├── pytorch_model.bin
 │   │   ├── config.json
 │   │   ├── tokenizer_config.json
 │   │   └── vocab.txt
-│   └── config.json               # Training configuration
+│   └── config.json
 │
 └── evaluation/
-    ├── evaluation_log.txt        # Evaluation logs
-    ├── evaluation_results.json   # Complete results + baseline comparison
-    └── confusion_matrix.png      # Confusion matrix plot
+    ├── evaluation_log.txt
+    ├── evaluation_results.json
+    └── confusion_matrix.png
 ```
 
 ---
 
-## 🐳 Docker Usage
+## 💣 Docker Usage
 
 ### Build Image
 
@@ -175,7 +191,7 @@ docker build -t anli_pipeline .
 # Build with specific tag
 docker build -t anli_pipeline:v1.0.0 .
 
-# Build without cache (clean build)
+# Build without cache
 docker build --no-cache -t anli_pipeline .
 ```
 
@@ -204,6 +220,7 @@ docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline python 
 # Run only evaluation
 docker run --rm -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline python eval.py
 ```
+
 ---
 
 ## 📈 Expected Results
@@ -224,109 +241,42 @@ docker run --rm -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline python eval.p
 
 ---
 
-## 🐛 Troubleshooting
+## 💩 Troubleshooting
 
-### Issue: "CUDA out of memory"
+### CUDA Out of Memory
+- Reduce `BATCH_SIZE` in `config.py`
+- Increase `GRADIENT_ACCUMULATION_STEPS`
 
-**Solution 1**: Reduce batch size in `config.py`
-```python
-BATCH_SIZE = 32  # or 16
-```
+### Logs Not Showing
+- Run stages individually or remove `capture_output=True`
 
-**Solution 2**: Increase gradient accumulation
-```python
-GRADIENT_ACCUMULATION_STEPS = 4  # or 8
-```
+### FileNotFoundError
+- Ensure Python scripts are in the same directory
 
-### Issue: Pipeline logs not showing
+### Docker Build Fails
+- Clean Docker cache: `docker system prune -a`
 
-**Check**: Are you using the updated `pipeline.py`?
-- Should NOT have `capture_output=True` in subprocess.run()
-
-**Verify**: Run stages individually to see their output
-```bash
-python eda.py
-python train.py
-python eval.py
-```
-
-### Issue: "FileNotFoundError: Script not found"
-
-**Check**: All Python files in same directory
-```bash
-ls -la eda.py train.py eval.py config.py pipeline.py
-```
-
-### Issue: Docker build fails
-
-**Solution 1**: Clean Docker cache
-```bash
-docker system prune -a
-```
-
-### Issue: Model not beating baseline
-
-**Check**: 
-1. Enough epochs? (default: 5)
-
-**Solution**: Adjust hyperparameters in `config.py`
+### Model Not Beating Baseline
+- Check epochs and hyperparameters in `config.py`
 
 ---
 
-## 📝 Logging System
+## 🗑️ Logging System
 
-### Log Files
+- Logs stored in `artifacts/*/` directories
+- View with `cat` or `tail -f` for real-time monitoring
 
-```
-artifacts/
-├── pipeline/
-│   └── pipeline_log.txt       # Orchestration logs, timing
-├── eda/
-│   └── eda_log.txt            # EDA analysis logs
-├── training/
-│   └── training_log.txt       # Training progress, metrics
-└── evaluation/
-    └── evaluation_log.txt     # Evaluation results
-```
+---
 
-### Log Levels
+## 🛠️ Support
 
-- **Pipeline**: Stage transitions, timing, overall status
-- **EDA**: Data loading, statistics, file saves
-- **Training**: Epoch progress, loss, accuracy, model saves
-- **Evaluation**: Test metrics, baseline comparison, final results
+- Common issues: OOM, slow training, Docker build failures, GPU detection
+- Fix by adjusting config, enabling GPU, cleaning cache, or updating drivers
 
-### Viewing Logs
+---
+
+**Ready to run?**
 
 ```bash
-# View all logs
-cat artifacts/pipeline/pipeline_log.txt
-cat artifacts/training/training_log.txt
-cat artifacts/evaluation/evaluation_log.txt
-
-# Follow training in real-time
-tail -f artifacts/training/training_log.txt
+docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline
 ```
-
----
-
-## 🆘 Support
-
-### Common Issues
-
-| Issue | Solution |
-|-------|----------|
-| Out of memory | Reduce BATCH_SIZE in config.py |
-| Slow training | Enable GPU, use FP16 |
-| Docker build fails | Clean cache: `docker system prune -a` |
-| GPU not detected | Update NVIDIA Drivers |
-
-### Getting Help
-
-1. Check logs in `artifacts/*/`
-2. Run stages individually to isolate issues
-3. Use interactive mode for debugging
-4. Review configuration in `config.py`
----
-
-**Ready to run? Execute:** `docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline`

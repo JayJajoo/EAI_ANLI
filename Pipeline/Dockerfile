@@ -14,5 +14,5 @@ ENV CUDA_VISIBLE_DEVICES=0
 CMD ["python", "pipeline.py"]
 
 
-# RUN the pipeline using docker 
+# To RUN the pipeline using docker 
 # docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" anli_pipeline
