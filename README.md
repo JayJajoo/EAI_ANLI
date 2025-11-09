@@ -122,16 +122,8 @@ A modular, production-ready pipeline that:
 ```bash
 # Navigate to pipeline
 cd MLPipeline/
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create folder structure
-mkdir -p models/bert models/logistic_regression models/random_forest models/xgboost utils
-touch utils/__init__.py models/__init__.py models/*/__init__.py
-
-# Run complete pipeline (EDA → Train all → Evaluate all → Compare)
-python pipeline.py
+pip install -r requirements.txt # Install dependencies
+python pipeline.py  # # Run complete pipeline (EDA → Train all → Evaluate all → Compare)
 
 # Or use Docker
 docker build -t nli_pipeline .
