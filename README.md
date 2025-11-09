@@ -117,22 +117,7 @@ A modular, production-ready pipeline that:
 
 ## 🛠️ Quick Start
 
-### Option A: Run Experiments (Jupyter)
-
-```bash
-# Install dependencies
-pip install transformers datasets torch scikit-learn xgboost pandas numpy matplotlib seaborn
-
-# Navigate to experiments
-cd Experiments/
-
-# Run notebooks
-jupyter notebook EDA/eai-eda-ipynb.ipynb
-jupyter notebook BasicMLAlgos/train.ipynb
-jupyter notebook Finetuning/After/BERTBase/bert-base-full-fine-tuning.ipynb
-```
-
-### Option B: Run Production Pipeline
+### Option A: Run Production Pipeline
 
 ```bash
 # Navigate to pipeline
@@ -156,6 +141,21 @@ docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" nli_pipeline
 docker pull jayjajoo/anli_pipeline:latest
 docker run --gpus all -v "$(pwd)/artifacts:/app/artifacts" jayjajoo/anli_pipeline:latest # Run with GPU
 docker run -v "$(pwd)/artifacts:/app/artifacts" jayjajoo/anli_pipeline:latest # Run without GPU (CPU only)
+```
+
+### Option B: Run Experiments (Jupyter)
+
+```bash
+# Install dependencies
+pip install transformers datasets torch scikit-learn xgboost pandas numpy matplotlib seaborn
+
+# Navigate to experiments
+cd Experiments/
+
+# Run notebooks
+jupyter notebook EDA/eai-eda-ipynb.ipynb
+jupyter notebook BasicMLAlgos/train.ipynb
+jupyter notebook Finetuning/After/BERTBase/bert-base-full-fine-tuning.ipynb
 ```
 
 ---
