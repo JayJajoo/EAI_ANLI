@@ -27,7 +27,13 @@ Comprehensive exploration and production implementation of Natural Language Infe
 | Logistic Regression | 35.6% | 0.339 | TF-IDF + ML |
 | DistilRoBERTa (baseline) | 33.7% | 0.242 | Pre-trained |
 
+### Model Comparision
+
 <img width="4769" height="1764" alt="image" src="https://github.com/user-attachments/assets/7cc7e89d-6426-4828-b649-75fb1bdba588" />
+
+### BERT-Large Performance Per Class
+
+<img width="296" height="76" alt="image" src="https://github.com/user-attachments/assets/87e6fe9b-7c81-4359-bd6d-5e81a58075c7" />
 
 ---
 
