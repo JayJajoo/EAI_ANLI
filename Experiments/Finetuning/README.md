@@ -1,7 +1,7 @@
 # BERT Fine-Tuning Report for ANLI
 
 ## Overview
-This project involves fine-tuning BERT models for the Adversarial Natural Language Inference (ANLI) dataset, comparing multiple approaches including baseline DistilRoBERTa, BERT-base, BERT-large without prompt, and BERT-large with prompt. The goal is to study how model size and prompt-based input affect performance on a challenging NLI task.
+This project involves fine-tuning BERT and DeBERTa models for the Adversarial Natural Language Inference (ANLI) dataset, comparing multiple approaches including baseline DistilRoBERTa, BERT-base, BERT-large without prompt, BERT-large with prompt, and DeBERTa-v3-large. The goal is to study how model size, architecture, and prompt-based input affect performance on a challenging NLI task.
 
 EDA revealed that the mean similarity scores between entailment, neutral, and contradiction examples were very close, making it inherently difficult for models to distinguish between classes. This challenge persisted after training, which explains why ANLI remains a difficult dataset for achieving high accuracy, even with large models.
 
@@ -11,6 +11,7 @@ We followed a stepwise approach for fine-tuning:
 1. **Baseline Evaluation**: Using `markusleonardo/DistilRoBERTa-For-Semantic-Similarity`, fine-tuned for NLI on SNLI/MNLI data to establish a reference point.
 2. **BERT-base Fine-Tuning**: Fully fine-tuned on the ANLI dataset to observe improvements over the baseline.
 3. **BERT-large Fine-Tuning**: Evaluated both without prompts and with manually crafted prompts to investigate prompt effectiveness for classification.
+4. **DeBERTa-v3-large Fine-Tuning**: Full fine-tuning with advanced architecture to achieve state-of-the-art performance.
 
 The use of prompts was intended to guide the model toward better semantic understanding and reduce ambiguity. However, results show that BERT-large did not significantly improve or degrade performance with prompts, suggesting the model may largely memorize the dataset patterns rather than relying on prompt guidance. ANLI is particularly challenging due to adversarial sentence pairs and high semantic ambiguity, making high accuracy difficult to achieve even for large models.
 
@@ -20,7 +21,7 @@ The use of prompts was intended to guide the model toward better semantic unders
 
 ## Model Configuration
 - Centralized `Config` class for hyperparameters and paths.
-- Options include model selection (BERT-large), max sequence length, batch size, epochs, learning rate, dropout rates, early stopping thresholds, FP16 training, and device selection.
+- Options include model selection (BERT-large, DeBERTa-v3-large), max sequence length, batch size, epochs, learning rate, dropout rates, early stopping thresholds, FP16 training, and device selection.
 
 ## Dataset Handling
 - `NLIDataset` class handles tokenization, label conversion, and returns dicts with `input_ids`, `attention_mask`, and labels.
@@ -54,11 +55,13 @@ The use of prompts was intended to guide the model toward better semantic unders
 | BERT-base | 0.431 | 0.427 | 0.427 |
 | BERT-large without prompt | 0.447 | 0.443 | 0.443 |
 | BERT-large with prompt | 0.454 | 0.450 | 0.450 |
+| **DeBERTa-v3-large** | **0.618** | **0.6177** | **0.6177** |
 
 **Observations:**
-- Prompting did not significantly change performance.
+- Prompting did not significantly change performance in BERT models.
 - BERT-large outperforms smaller models due to higher capacity.
-- ANLI remains challenging due to adversarial examples and semantic complexity.
+- DeBERTa-v3-large achieves substantial improvement (+16.4% over BERT-large) due to advanced architecture with disentangled attention.
+- ANLI remains challenging due to adversarial examples and semantic complexity, though DeBERTa demonstrates better handling of adversarial patterns.
 
 ## Key Features Summary
 - Reproducibility through seeds
