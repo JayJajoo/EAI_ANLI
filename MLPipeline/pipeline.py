@@ -290,6 +290,14 @@ def generate_comparison_report(evaluation_results):
         'beats_baseline': True
     })
 
+    all_models.append({
+        'model_type': 'deberta',
+        'config_name': 'deberta-v3-large',
+        'accuracy': 0.6180,
+        'f1_macro': 0.6177,
+        'beats_baseline': True
+    })
+
     # Generate comparison plot
     plot_model_comparison(all_models)
     
